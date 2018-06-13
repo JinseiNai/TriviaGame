@@ -27,7 +27,7 @@ let game = {
             wrongAnswer: ['Albania', 'Cyprus', 'Romania']
         },
         six = {
-            ask: "What was Marilyn Monro's natural hair color?",
+            ask: "What was Marilyn Monroe's natural hair color?",
             correctAnswer: 'Ginger',
             wrongAnswer: ['Brunette', 'Black', 'Blonde']
         },
