@@ -57,18 +57,17 @@ let game = {
     losses: 0,
     currentQuestion: 0,
     secondsLeft: 8,
-    intervalId: '',
     pickedQuestions: [],
     questionAnswers: [],
 
     // Create a timer
-    timer: function() {
-        game.intervalId = setInterval(game.count, 1000)
-    },
-
-    count: function() {
-
-    },
+    countdown: setInterval(function() {
+        $('.timer').value = 8 - --secondsLeft;
+        if (secondsLeft <= 0) {
+            clearInterval(game.countdown);
+            game.wrong();
+        }
+    }),
 
     // Get questions randomly (no duplicate)
     getQuestions: function () {
