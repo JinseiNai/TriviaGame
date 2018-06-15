@@ -1,160 +1,182 @@
-// create object to hold game questions and answers
-let game = {
-    questions: [
-        one = {
-            ask: 'What is the Italian word for pie?',
-            correctAnswer: 'Pizza',
-            wrongAnswer: ['Pasta', 'Piano', 'Dutch']
-        },
-        two = {
-            ask: 'What is the national flower of Wales?',
-            correctAnswer: 'Daffodil',
-            wrongAnswer: ['Clover', 'Dahlia', 'Azalea']
-        },
-        three = {
-            ask: 'Which Australian marsupial enjoys eating eucalptus leaves?',
-            correctAnswer: 'Koala',
-            wrongAnswer: ['Kangaroo', 'Dingo', 'Quoll']
-        },
-        four = {
-            ask: 'In nautical terms, what is the opposite of port?',
-            correctAnswer: 'Starboard',
-            wrongAnswer: ['Portside', 'Land ho', 'Plank']
-        },
-        five = {
-            ask: 'Name the port of Rome',
-            correctAnswer: 'Ostia',
-            wrongAnswer: ['Albania', 'Cyprus', 'Romania']
-        },
-        six = {
-            ask: "What was Marilyn Monroe's natural hair color?",
-            correctAnswer: 'Ginger',
-            wrongAnswer: ['Brunette', 'Black', 'Blonde']
-        },
-        seven = {
-            ask: 'Which city does the River Lagan flow through?',
-            correctAnswer: 'Belfast',
-            wrongAnswer: ['Beslow', 'Berlin', 'Prague']
-        },
-        eight = {
-            ask: 'What is one quarter of 1,000?',
-            correctAnswer: 250,
-            wrongAnswer: [25, 750, 1250]
-        },
-        nine = {
-            ask: 'How many sides, in total, would three triangles and three rectangles have?',
-            correctAnswer: 21,
-            wrongAnswer: [10, 24, 17]
-        },
-        ten = {
-            ask: 'When did the French Revolution end?',
-            correctAnswer: 1799,
-            wrongAnswer: [1679, 1809, 1899]
-        }
-    ],
-    // Set variables
-    wins: 0,
-    losses: 0,
-    currentQuestion: 0,
-    secondsLeft: 8,
-    pickedQuestions: [],
-    questionAnswers: [],
+// Set variables
+let randomQuestion;
+let intervalId;
+let timer = 8;
+let wins = 0;
+let losses = 0;
+// Question object array
+let questionArray = [{
+    question: "What is the Italian word for pie?",
+    answers: ["Pasta", "Pizza", "Piano", "Dutch"],
+    correctAnswer: "Pizza",
+}, {
+    question: "What is the national flower of Wales?",
+    answers: ["Clover", "Dahlia", "Daffodil", "Azalea"],
+    correctAnswer: "Daffodil",
+}, {
+    question: "Which Australian marsupial enjoy eating eucalyptus leaves?",
+    answers: ["Dingo", "Quoll", "Koala", "Kangaroo"],
+    correctAnswer: "Koala",
+}, {
+    question: "In nautical terms, what is the opposite of port?",
+    answers: ["Starboard", "Portside", "Land ho", "Plank"],
+    correctAnswer: "Starboard",
+}, {
+    question: "Name the port of Rome",
+    answers: ["Albania", "Ostia", "Cyprus", "Romania"],
+    correctAnswer: "Ostia",
+}, {
+    question: "What was Marilyn Monroe's natural hair color?",
+    answers: ["Blonde", "Ginger", "Brunette", "Black"],
+    correctAnswer: "Ginger",
+}, {
+    question: "Which city does the River Lagan flow through?",
+    answers: ["Beslow", "Berlin", "Belfast", "Prague"],
+    correctAnswer: "Belfast",
+}, {
+    question: "What is one quarter of 1,000?",
+    answers: [250, 25, 1250, 750],
+    correctAnswer: 250,
+}, {
+    question: "How many sides, in total, would three triangles and three rectangles have?",
+    answers: [24, 17, 21, 10],
+    correctAnswer: 21,
+}, {
+    question: "When did the French Revolution end?",
+    answers: [1899, 1679, 1809, 1799],
+    correctAnswer: 1799,
+}];
 
-    // Create a timer
-    countdown: setInterval(function() {
-        $('.timer').value = 8 - --secondsLeft;
-        if (secondsLeft <= 0) {
-            clearInterval(game.countdown);
-            game.wrong();
-        }
-    }),
+// Create a timer 
+// ================
+function startTimer() {
+    intervalId = setInterval(decrement, 1000);
+};
 
-    // Get questions randomly (no duplicate)
-    getQuestions: function () {
-        for (i = 0; i < 5; i++) {
-            let qNumber = Math.floor(Math.random() * (game.questions.length));
-            // No duplicates
-            while (game.pickedQuestions.indexOf(qNumber) !== -1) {
-                qNumber = Math.floor(Math.random() * (game.questions.length));
-            }
-            game.pickedQuestions.push(qNumber);
-            console.log(qNumber); // Delete Later
-        }
-    },
-    // Display the question
-    // Display answers
-    showQuestions: function () {
-        // Clear current content in DOM
-        $('.main-content').empty();
-        // Clear answers in array
-        game.questionAnswers = [];
-        // Create new div to hold question and answers.
-        let newDiv = $('<div>').addClass('trivia');
-        // Create new element for the question
-        let question = $('<h2>').html(game.questions[game.pickedQuestions[game.currentQuestion]].ask);
-        // append the element to the new div
-        newDiv.append(question);
-        // Show question on the DOM
-        $('.main-content').append(newDiv);
-        // For the question picked, show answers.
-        // Add wrong answer to questionAnswers Array.
-        for (j = 0; j < game.questions[game.pickedQuestions[game.currentQuestion]].wrongAnswer.length; j++) {
-            game.questionAnswers.push(game.questions[game.pickedQuestions[game.currentQuestion]].wrongAnswer[j]);
-        }
-        // Make sure correct answer is in different positions in the array.
-        let newPosition = Math.floor(Math.random() * (game.questionAnswers.length));
-        // Add correct answer to questionAnswers array.
-        game.questionAnswers.splice(newPosition, 0, (game.questions[game.pickedQuestions[game.currentQuestion]].correctAnswer));
-        console.log(game.questionAnswers); // Delete Later
-        // Show answers on the DOM
-        for (i = 0; i < game.questionAnswers.length; i++) {
-            // Add separate class to distiguish the correct answer
-            if (i == newPosition) {
-                $('.main-content').append($('<button>').addClass('btn-answers correct').html(game.questionAnswers[i]));
-            } else {
-                $('.main-content').append($('<button>').addClass('btn-answers wrong').html(game.questionAnswers[i]));
-            }
-        }
-    },
+function decrement() {
+    timer--;
+    $('.display').html(`<h2>${timer}</h2>`)
 
-    // What happens when answer picked is correct
-    correct: function () {
-        $('.main-content').empty();
-        $('.main-content').append($('<h2>').html('You are correct!'));
-        $('.main-content').append($('<p>').html(`Answer is: ${game.questions[game.pickedQuestions[game.currentQuestion]].correctAnswer}`));
-        game.wins++;
-        game.currentQuestion++;
-        setTimeout(game.showQuestions, 3000);
-    },
+    if (timer === 0) {
+        stopTimer();
+        wrong();
+    }
+};
 
-    // What happens when answer picked is wrong
-    wrong: function () {
-        $('.main-content').empty();
-        $('.main-content').append($('<h2>').html('You are wrong!'));
-        $('.main-content').append($('<p>').html(`Answer is: ${game.questions[game.pickedQuestions[game.currentQuestion]].correctAnswer}`));
-        game.losses++;
-        game.currentQuestion++;
-        setTimeout(game.showQuestions, 3000);
+function stopTimer() {
+    timer = 8;
+    clearInterval(intervalId);
+}
+// ================
+
+// Grab a random question from question array
+function getQuestion() {
+    if ((wins + losses) < 5) {
+        timer = 8;
+        startTimer();
+        decrement();
+        randomQuestion = questionArray[Math.floor(Math.random() * questionArray.length)];
+        $('.question-area').html(`<h2>${randomQuestion.question}</h2>`);
+        createButtons(randomQuestion);
+    } else {
+        gameOver();
     }
 }
 
-$(document).ready(function () {
-    // When answer button is clicked
-    $('.btn-answers').on('click', function (e) {
-        // Know which button is clicked on
-        let target = $(e.target);
-        // Check if target is correct
-        if (target.is('.correct')) {
-            console.log('You are correct');
-            game.correct();
+// Creates answer buttons based off the randomQuestion chosen
+function createButtons(randomQuestion) {
+    // Clear any buttons made previously
+    $('.answer-area').empty();
+    // Create a button for each answer
+    for (i = 0; i < randomQuestion.answers.length; i++) {
+        // Create variable to hold a button element
+        let btn = $('<button>');
+        // Add classes to your button
+        if (randomQuestion.answers[i] == randomQuestion.correctAnswer) {
+            btn.addClass('btn-answer correct');
+        } else {
+            btn.addClass('btn-answer wrong');
         }
-        if (target.is('.wrong')) {
-            console.log('Wrong!');
-            game.wrong();
-        }
-    })
+        // Add a data attribute
+        btn.data('name', randomQuestion.answers[i]);
+        // Put the answer text in each button
+        btn.text(randomQuestion.answers[i]);
+        // Display the buttons
+        $('.answer-area').append(btn);
+    }
+}
+
+// Create a start game button
+function startButton() {
+    wins = 0;
+    losses = 0;
+    // Clear any buttons made previously
+    $('.answer-area').empty();
+    // Create variable to hold a button element
+    let btn = $('<button>');
+    // Add a startGame class to your button
+    btn.addClass('startGame');
+    // Add text for the button
+    btn.text('Start Game');
+    // Display the button
+    $('.answer-area').append(btn);
+}
+
+// If wins and losses = 5, game over
+function gameOver() {
+    emptyDisplay();
+    $('.question-area').html(`<h3>Correct guesses: ${wins}</h3> <h3>Wrong guesses: ${losses}</h3>`);
+    startButton();
+}
+
+// Display info for when answer chosen is correct
+function correct() {
+    emptyDisplay();
+    $('.question-area').html('<h2>You Are Correct!</h2>');
+    $('.answer-area').html(`Answer is: ${randomQuestion.correctAnswer}`);
+    wins++;
+    setTimeout(getQuestion, 3000);
+}
+
+// Display info for when answer chosen is wrong
+function wrong() {
+    emptyDisplay();
+    $('.question-area').html('<h2>You Are Wrong!</h2>');
+    $('.answer-area').html(`Answer is: ${randomQuestion.correctAnswer}`);
+    losses++;
+    setTimeout(getQuestion, 3000);
+}
+
+// Function to empty display
+function emptyDisplay() {
+    $('.display').empty();
+    $('.question-area').empty();
+    $('.answer-area').empty();
+}
+
+// When an answer button is clicked
+$('.answer-area').on('click', function (e) {
+    let target = $(e.target);
+    // Check if answer picked is correct or wrong
+    if (target.is('.correct')) {
+        console.log('Correct!');
+        stopTimer();
+        correct();
+    }
+
+    if (target.is('.wrong')) {
+        console.log('Wrong!');
+        stopTimer();
+        wrong();
+    }
+
+    if (target.is('.startGame')) {
+        getQuestion();
+    }
 })
-game.getQuestions();
-game.showQuestions();
-console.log(game.questions[game.pickedQuestions[game.currentQuestion]].ask);
-console.log(game.pickedQuestions);
+
+// When browser loads up
+$(document).ready(function () {
+    $('.question-area').html('<h2>Are you ready!?</h2>');
+    startButton();
+})
