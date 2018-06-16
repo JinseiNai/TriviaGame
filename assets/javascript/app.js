@@ -4,6 +4,7 @@ let intervalId;
 let timer = 8;
 let wins = 0;
 let losses = 0;
+let images = ["assets/images/yes.gif", "assets/images/nope.gif"];
 // Question object array
 let questionArray = [{
     question: "What is the Italian word for pie?",
@@ -55,7 +56,7 @@ function startTimer() {
 
 function decrement() {
     timer--;
-    $('.display').html(`<h2>${timer}</h2>`)
+    $('.display').html(`<h2>${timer}</h2>`).addClass('card');
 
     if (timer === 0) {
         stopTimer();
@@ -87,6 +88,7 @@ function getQuestion() {
 function createButtons(randomQuestion) {
     // Clear any buttons made previously
     $('.answer-area').empty();
+    $('.image-area').empty();
     // Create a button for each answer
     for (i = 0; i < randomQuestion.answers.length; i++) {
         // Create variable to hold a button element
@@ -100,7 +102,7 @@ function createButtons(randomQuestion) {
         // Add a data attribute
         btn.data('name', randomQuestion.answers[i]);
         // Put the answer text in each button
-        btn.text(randomQuestion.answers[i]);
+        btn.html(randomQuestion.answers[i]);
         // Display the buttons
         $('.answer-area').append(btn);
     }
@@ -117,7 +119,7 @@ function startButton() {
     // Add a startGame class to your button
     btn.addClass('startGame');
     // Add text for the button
-    btn.text('Start Game');
+    btn.text('Play!');
     // Display the button
     $('.answer-area').append(btn);
 }
@@ -125,24 +127,35 @@ function startButton() {
 // If wins and losses = 5, game over
 function gameOver() {
     emptyDisplay();
+    $('.display').html(`<h2>Score</h2>`);
     $('.question-area').html(`<h3>Correct guesses: ${wins}</h3> <h3>Wrong guesses: ${losses}</h3>`);
     startButton();
 }
 
 // Display info for when answer chosen is correct
 function correct() {
+    // Create image element
+    let image = $('<img>');
+    image.attr("src", images[0]);
+    image.addClass("pic");
     emptyDisplay();
     $('.question-area').html('<h2>You Are Correct!</h2>');
     $('.answer-area').html(`Answer is: ${randomQuestion.correctAnswer}`);
+    $('.image-area').append(image);
     wins++;
     setTimeout(getQuestion, 3000);
 }
 
 // Display info for when answer chosen is wrong
 function wrong() {
+    // Create image element
+    let image = $('<img>');
+    image.attr("src", images[1]);
+    image.addClass("pic");
     emptyDisplay();
     $('.question-area').html('<h2>You Are Wrong!</h2>');
     $('.answer-area').html(`Answer is: ${randomQuestion.correctAnswer}`);
+    $('.image-area').append(image);
     losses++;
     setTimeout(getQuestion, 3000);
 }
@@ -150,8 +163,10 @@ function wrong() {
 // Function to empty display
 function emptyDisplay() {
     $('.display').empty();
+    $('.display').removeClass('card');
     $('.question-area').empty();
     $('.answer-area').empty();
+    $('.image-area').empty();
 }
 
 // When an answer button is clicked
@@ -177,6 +192,6 @@ $('.answer-area').on('click', function (e) {
 
 // When browser loads up
 $(document).ready(function () {
-    $('.question-area').html('<h2>Are you ready!?</h2>');
+    $('.question-area').html('<h2>Click to Start!</h2>');
     startButton();
 })

@@ -1,0 +1,55 @@
+body {
+    height: 100%;
+}
+
+.header,
+.question-area,
+.display,
+.answer-area,
+.footer,
+.image-area {
+    text-align: center;
+}
+
+.display {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+}
+
+.display h2 {
+    margin-top: 25%;
+}
+
+.question-area {
+    margin: 50px auto;
+}
+
+.answer-area button {
+    padding: 5px 10px;
+    margin: 10px 20px;
+    min-width: 75px;
+}
+
+.footer {
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+    position: absolute;
+}
+
+.title {
+    font-family: 'Eater', 'cursive';
+    font-size: 80px;
+}
+
+.pic {
+    height: 200px;
+    width: 300px;
+    margin: 20px auto 0;
+    padding-bottom: 50px;
+}
+
+.wrapper {
+    height: 100%;
+}
