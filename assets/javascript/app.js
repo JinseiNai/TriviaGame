@@ -1,7 +1,7 @@
 // Set variables
 let randomQuestion;
 let intervalId;
-let timer = 8;
+let timer = 10;
 let wins = 0;
 let losses = 0;
 let images = ["assets/images/yes.gif", "assets/images/nope.gif"];
@@ -46,7 +46,84 @@ let questionArray = [{
     question: "When did the French Revolution end?",
     answers: [1899, 1679, 1809, 1799],
     correctAnswer: 1799,
-}];
+}, {
+    question: "Which ocean surrounds the Maldives?",
+    answers: ["Pacific", "Atlantic", "Indian", "Artic"],
+    correctAnswer: "Indian",
+}, {
+    question: "Name the Chinese writer, born in 551 BCE, known for preaching high moral standards.",
+    answers: ["Buddha", "Confucius", "Bruce Lee", "Jesus"],
+    correctAnswer: "Confucius",
+}, {
+    question: "I have a cake and a table named after me, and I'm used all around the world. What am I?",
+    answers: ["Coffee", "Sugar", "Sweet", "Kiddie"],
+    correctAnswer: "Coffee",
+}, {
+    question: "Which country does the sport of pelato come from?",
+    answers: ["Argentina", "Germany", "Spain", "Africa"],
+    correctAnswer: "Spain",
+}, {
+    question: "What takes place in Hong Kong's Happy Valley?",
+    answers: ["Cock Fighting", "Horse Racing", "Red Light District", "Triads"],
+    correctAnswer: "Horse Racing",
+}, {
+    question: "What was Louis Armstrong's chosen form of music?",
+    answers: ["RnB", "EDM", "Jazz", "Country"],
+    correctAnswer: "Jazz",
+}, {
+    question: "Who sang about being an eggman and a walrus?",
+    answers: ["The Beatles", "NSYNC", "Jackson 5", "Maroon 5"],
+    correctAnswer: "The Beatles",
+}, {
+    question: "How many bones are there on a Skull & Crossbones flag?",
+    answers: [4, 3, 7, 2],
+    correctAnswer: 3,
+}, {
+    question: "Alfred, an ancient King of Wessex, is famous for burning what?",
+    answers: ["Women", "Cats", "Cakes", "Hair"],
+    correctAnswer: "Cakes",
+}, {
+    question: "Who went to school with a lamb?",
+    answers: ["Joe", "David", "Jesus", "Mary"],
+    correctAnswer: "Mary",
+}, {
+    question: "Which sea creature has three hearts?",
+    answers: ["Sharks", "Octopus", "Squid", "Jellyfish"],
+    correctAnswer: "Octopus",
+}, {
+    question: "How many tails does a Manx cat have?",
+    answers: [0, 1, 2, 3, 9],
+    correctAnswer: 0,
+}, {
+    question: "How many pedals do most modern pianos have?",
+    answers: [0, 1, 2, 3],
+    correctAnswer: 3,
+}, {
+    question: "How many bones does and adult human have?",
+    answers: [176, 206, 193, 216, 288],
+    correctAnswer: 206,
+}, {
+    question: "In Fahrenheit, water boils at what degree?",
+    answers: [180, 315, 224, 160, 212],
+    correctAnswer: 212,
+}, {
+    question: "Which instrument has forty-seven strings and seven pedals?",
+    answers: ["Harp", "Piano", "Organ", "Lutes"],
+    correctAnswer: "Harp",
+}, {
+    question: "Which item of a nursery furniture was set on top of a tree?",
+    answers: ["Rocker", "Crib", "Cradle", "Rug"],
+    correctAnswer: "Cradle",
+}, {
+    question: "Which is larger, 50% or five eights?",
+    answers: ["50%", "Five Eights"],
+    correctAnswer: "Five Eights",
+}, {
+    question: "Who was the lover of the Roman known as Marc Anthony?",
+    answers: ["Cleopatra", "Hancock", "Cersei", "Selene"],
+    correctAnswer: "Cleopatra",
+}
+];
 
 // Create a timer 
 // ================
@@ -73,7 +150,7 @@ function stopTimer() {
 // Grab a random question from question array
 function getQuestion() {
     if ((wins + losses) < 5) {
-        timer = 8;
+        timer = 10;
         startTimer();
         decrement();
         randomQuestion = questionArray[Math.floor(Math.random() * questionArray.length)];
@@ -127,7 +204,7 @@ function startButton() {
 // If wins and losses = 5, game over
 function gameOver() {
     emptyDisplay();
-    $('.display').html(`<h2>Score</h2>`);
+    $('.display').html(`<h3>Score</h3>`);
     $('.question-area').html(`<h3>Correct guesses: ${wins}</h3> <h3>Wrong guesses: ${losses}</h3>`);
     startButton();
 }
